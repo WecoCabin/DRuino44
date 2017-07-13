@@ -8,8 +8,9 @@ This Arduino sketch controls a DR44 alternator.
 
 
 The DR44 is a two wire Alternator with a built-in regulator. Well, really three wire but the third wire is not needed if adapting this alternator into another vehicle. The DR44 needs a 128Hz PWM signal to set the desired voltage output. The voltage output of the DR44 is adjusted by varying the PWM duty cycle from 5 to 95%. Duty Cycles 0-5% and 95-100% are used for diagnostic purposes. 
-See PWM/Voltage scale below.
-If the DR44 does not see a PWM signal, it defaults to 13.8V output.
+See PWM/Voltage scale below. If the DR44 does not see a PWM signal, it defaults to 13.8V output. 
+
+I have seen 145 A and 160 A versions of this alternator. The 160A model is a nice upgrade from the older AD244 or even CS144/CS130 alternator models found in older vehicles.  
 
 
 ###### DR44 PWM/Voltage scale
@@ -30,7 +31,7 @@ Commanded Duty Cycle Generator Output Voltage
 ref: https://ls1tech.com/forums/conversions-hybrids/1333228-2-wire-truck-alternator-wiring.html#post14432728
 
 ## What you need
-1. A DR44 Alternator mounted in your vehicle.
+1. A DR44/DR44G Alternator mounted in your vehicle.
 2. An Ardiuno preferably with the ATmega328. I'm using the Nano, but you could use the Uno or Pro Mini or possibly the micro, but that one hasn't been tested yet. 
 3. A Ground Wire - Connect from Arduino GND pin to vehicle chassis.
 4. A Power Wire - Connect from Aruindo VIN to vehicle switched power, whatever you connect it to should only be hot (12V) when the key is switched to On (or Acc) position.
