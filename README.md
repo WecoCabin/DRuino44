@@ -1,5 +1,5 @@
 # DRuino44
-DR44 Alternator PWM Control
+DR44 / DR44G Alternator PWM Control
 
 This Arduino sketch controls a DR44 alternator. 
 
