@@ -7,7 +7,7 @@ This Arduino sketch controls a DR44 alternator.
 <img src="Images/DR44.png" width="25%" height="25%">
 
 
-The DR44 is a two wire Alternator with a built-in regulator. Well, really three wire but the third wire is not needed if adapting this alternator into another vehicle. The DR44 needs a 128Hz PWM signal to set the desired voltage output. The voltage output of the DR44 is adjusted by varying the PWM duty cycle from 5 to 95%. Duty Cycles 0-5% and 95-100% are used for diagnostic purposes. 
+The DR44 is a two wire Alternator with a built-in regulator. Well, really three wire but the third wire is not needed if adapting this alternator into another vehicle. The DR44 needs a 5V, 128Hz PWM signal to set the desired voltage output. The voltage output of the DR44 is adjusted by varying the PWM duty cycle from 5 to 95%. Duty Cycles 0-5% and 95-100% are used for diagnostic purposes. 
 See PWM/Voltage scale below. If the DR44 does not see a PWM signal, it defaults to 13.8V output. 
 
 I have seen 145 A and 160 A versions of this alternator. The 160A model is a nice upgrade from the older AD244 or even CS144/CS130 alternator models found in older vehicles.  
@@ -31,14 +31,16 @@ Commanded Duty Cycle Generator Output Voltage
 ref: https://ls1tech.com/forums/conversions-hybrids/1333228-2-wire-truck-alternator-wiring.html#post14432728
 
 ## What you need
-1. A DR44/DR44G Alternator mounted in your vehicle.
+1. A DR44/DR44G Alternator mounted in your vehicle. I found mine at a local junk yard that came out of a 2007 Silverado 1500 with the KW1 alternator option. It only had 70k miles on it. I trust a used OEM more than the Chinese options from the big box auto parts stores.  I find it easiest to search for a 2007 Cadillac Escalade since they nearly always have the biggest alternator package.
 2. An Ardiuno preferably with the ATmega328. I'm using the Nano, but you could use the Uno or Pro Mini or possibly the micro, but that one hasn't been tested yet. 
 3. A Ground Wire - Connect from Arduino GND pin to vehicle chassis.
 4. A Power Wire - Connect from Aruindo VIN to vehicle switched power, whatever you connect it to should only be hot (12V) when the key is switched to On (or Acc) position.
 5. A PWM Control Wire - Connect from Arduino pin 9 to DR44 PWM Input. On my connector, the pin is labeled 28.
       <p align="center"><img src="Images/DR44_Connector.jpg"></p>
 6. A Sense Cicuit - Two resistors (for a voltage divider), a relay, and some wire. Connect the output of the DR44 to the COM (common) contact of the relay with a piece of wire (doesn't need to be any larger than 22 AWG). Then connect the NO (Normally Open) contact of the relay to the input of the voltage divider (see schematic). Connect the output of the voltage divider to Arduino pin A7.
-    - The resistors will knock down the 12-15V output from battery/alternator to something less than 5V that the Arduino can read.             Otherwise known as a voltage divider. I used a 22k and an 11k Ohm resistors for this. but you could use any other combination you       want as long as the output of the voltage divider is less than 15 or 15.5V. I don't ever plan on setting my alterntor to output         more than 15. 
+    - The resistors will knock down the 12-15V output from battery/alternator to something less than 5V that the Arduino can read.             Otherwise known as a voltage divider. I originally used a 22k and an 11k Ohm resistors for this - making a 15V input divide down         to 5V. You don't want to exceed the voltage reference of you ADC - by default the Arduino uses 5V reference. I was thinking that I 
+      would never go over 15V so that's why I used the 11k. But ideally you want to design it with a little more overhead. Changing the 
+      11k to a 10k allows for up to a 16V input. You can use whatever combination you want as long as the output of the voltage divider       is 5V or less.
     - The relay is used to isolate the battery from the Arduino when the vehicle is not on, more explanation about that later. I used a 
       small 5V coil relay that is driven off the Arduino 5V pin. But you could use a 12V relay if you want.
     - The wired connection to the DR44 output doesn't have to be right on the alternator, I connected mine at the Starter Solenoid - 
